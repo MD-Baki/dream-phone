@@ -1,0 +1,9 @@
+.carousel-img::before {
+    position: absolute;
+    content: "";
+    inset: 0;
+    background: linear-gradient(90deg, #151515 0%, rgba(21, 21, 21, 0) 100%);
+}
+.carousel-img {
+    border-radius: 50%;
+}
