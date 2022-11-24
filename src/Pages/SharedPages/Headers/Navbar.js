@@ -1,8 +1,14 @@
-import React from "react";
-import { FaBars } from "react-icons/fa";
+import React, { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../../Context/AuthProvider";
+import { FaBars, FaUserAlt } from "react-icons/fa";
+import Profile from "./Profile";
 
 const Navbar = () => {
+    const { user } = useContext(AuthContext);
+    const [open, setOpen] = useState(false);
+    console.log(user);
+
     const menuItems = (
         <>
             <li className="font-medium rounded-lg overflow-hidden">
@@ -14,12 +20,16 @@ const Navbar = () => {
             <li className="font-medium rounded-lg overflow-hidden">
                 <NavLink to="/dashboard">Dashboard</NavLink>
             </li>
-            <li className="font-medium rounded-lg overflow-hidden">
-                <NavLink to="/signUp">sign Up</NavLink>
-            </li>
-            <li className="font-medium rounded-lg overflow-hidden">
-                <NavLink to="/signIn">sign In</NavLink>
-            </li>
+            {!user && (
+                <>
+                    <li className="font-medium rounded-lg overflow-hidden">
+                        <NavLink to="/signUp">sign Up</NavLink>
+                    </li>
+                    <li className="font-medium rounded-lg overflow-hidden">
+                        <NavLink to="/signIn">sign In</NavLink>
+                    </li>
+                </>
+            )}
         </>
     );
 
@@ -55,15 +65,34 @@ const Navbar = () => {
                                 {menuItems}
                             </ul>
                         </div>
-                        <div className="avatar ml-3">
-                            <div className="w-10 rounded-full border-2 p-px border-primary">
-                                <img
-                                    src="https://placeimg.com/192/192/people"
-                                    alt=""
-                                    className="rounded-full"
-                                />
+                        {user?.uid ? (
+                            <div
+                                onClick={() => setOpen(!open)}
+                                className="relative ml-3"
+                            >
+                                {user?.photoURL ? (
+                                    <Link>
+                                        <img
+                                            title={user?.displayName}
+                                            src={user?.photoURL}
+                                            alt=""
+                                            className="rounded-full h-10 w-10"
+                                        />
+                                    </Link>
+                                ) : (
+                                    <FaUserAlt />
+                                )}
+                                <div
+                                    className={`absolute z-10 top-full right-0 ${
+                                        open ? "block" : "hidden"
+                                    }`}
+                                >
+                                    <Profile></Profile>
+                                </div>
                             </div>
-                        </div>
+                        ) : (
+                            <></>
+                        )}
                     </div>
                 </div>
             </header>

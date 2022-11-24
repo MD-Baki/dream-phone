@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import authimg from "../../assets/login/Computer login-amico.png";
 import { ImGoogle3 } from "react-icons/im";
+import { AuthContext } from "../../Context/AuthProvider";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
     const {
@@ -10,11 +12,31 @@ const SignUp = () => {
         formState: { errors },
         handleSubmit,
     } = useForm();
+    const { createUser, updateUser } = useContext(AuthContext);
     const [signUpError, setSignUpError] = useState("");
 
     const handleSignUp = (data) => {
         console.log(data);
-        // setSignUpError("");
+        setSignUpError("");
+
+        createUser(data.email, data.password)
+            .then((result) => {
+                const user = result.user;
+                console.log(user);
+                toast.success("User Created Successfully");
+
+                const userInfo = {
+                    displayName: data.name,
+                    photoURL: data.photoURL,
+                };
+                updateUser(userInfo)
+                    .then(() => {})
+                    .catch((error) => console.log(error));
+            })
+            .catch((err) => {
+                console.error(err);
+                setSignUpError(err.message);
+            });
     };
 
     return (
@@ -58,10 +80,21 @@ const SignUp = () => {
                             </label>
 
                             <input
-                                // {...register("Your Photo")}
-                                type="file"
-                                className="file-input file-input-primary w-full "
+                                {...register("photoURL", {
+                                    required: "Required",
+                                })}
+                                type="url"
+                                placeholder="Photo URL"
+                                className="input input-primary"
                             />
+                            {errors.photoURL && (
+                                <p
+                                    role="alert"
+                                    className="text-right text-xs font-bold pt-1 pr-2 text-red-600"
+                                >
+                                    {errors.photoURL?.message}
+                                </p>
+                            )}
                         </div>
                         <div className="form-control">
                             <label className="label  font-bold text-secondary">
@@ -111,7 +144,7 @@ const SignUp = () => {
                                             "Password must be 6 characters or longer",
                                     },
                                     // pattern: {
-                                    //     value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z])/,
+                                    //     value: /(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z])/,
                                     //     message: "Password must be strong",
                                     // },
                                 })}
@@ -134,7 +167,9 @@ const SignUp = () => {
                             value="Sign Up"
                             className="btn btn-block btn-primary bg-gradient-to-r from-primary to-[#083f50] text-white mt-5 shadow-lg"
                         />
-                        {/* <p>{signUpError}</p> */}
+                        <p className="text-sm text-center text-red-600 font-bold pt-2">
+                            {signUpError}
+                        </p>
                     </form>
                     <div className="px-8">
                         <div className="divider font-bold text-secondary">
