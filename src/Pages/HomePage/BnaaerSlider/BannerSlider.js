@@ -28,7 +28,7 @@ const BannerSlider = () => {
     ];
 
     return (
-        <div className="carousel w-full rounded-xl overflow-hidden">
+        <div className="carousel w-full lg:rounded-b-xl overflow-hidden">
             {bannerData.map((slide) => (
                 <SliderItems key={slide.id} slide={slide}></SliderItems>
             ))}

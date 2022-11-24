@@ -24,14 +24,14 @@ const Navbar = () => {
     );
 
     return (
-        <div className="fixed w-full z-10 ">
-            <header className="max-w-[1440px] mx-auto">
-                <div className="navbar bg-base-100">
+        <div className="fixed w-full z-10">
+            <header className="max-w-[1440px] mx-auto border-b-4 border-primary">
+                <div className="navbar bg-base-100 justify-between">
                     <div className="navbar-start">
                         <div className="dropdown">
                             <label
                                 tabIndex={0}
-                                className="btn btn-primary btn-outline lg:hidden"
+                                className="btn btn-primary btn-outline  lg:hidden"
                             >
                                 <FaBars />
                             </label>
@@ -44,15 +44,26 @@ const Navbar = () => {
                         </div>
                         <Link
                             to="/home"
-                            className="text-xl text-white font-bold ml-3 px-3 py-2 rounded-lg bg-primary"
+                            className="md:text-xl text-white font-bold ml-3 px-3 py-2 rounded-lg bg-primary"
                         >
                             Dream Phones
                         </Link>
                     </div>
-                    <div className="navbar-center hidden lg:flex">
-                        <ul className="menu menu-horizontal p-0">
-                            {menuItems}
-                        </ul>
+                    <div>
+                        <div className="navbar-center hidden lg:flex">
+                            <ul className="menu menu-horizontal p-0">
+                                {menuItems}
+                            </ul>
+                        </div>
+                        <div className="avatar ml-3">
+                            <div className="w-10 rounded-full border-2 p-px border-primary">
+                                <img
+                                    src="https://placeimg.com/192/192/people"
+                                    alt=""
+                                    className="rounded-full"
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </header>
