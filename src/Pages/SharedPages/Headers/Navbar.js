@@ -7,7 +7,6 @@ import Profile from "./Profile";
 const Navbar = () => {
     const { user } = useContext(AuthContext);
     const [open, setOpen] = useState(false);
-    console.log(user);
 
     const menuItems = (
         <>
@@ -18,7 +17,7 @@ const Navbar = () => {
                 <NavLink to="/products">Products</NavLink>
             </li>
             <li className="font-medium rounded-lg overflow-hidden">
-                <NavLink to="/dashboard">Dashboard</NavLink>
+                <NavLink to="/dashboard/allUsers">Dashboard</NavLink>
             </li>
             {!user && (
                 <>
