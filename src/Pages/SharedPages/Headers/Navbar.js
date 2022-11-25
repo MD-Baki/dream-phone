@@ -16,10 +16,11 @@ const Navbar = () => {
             <li className="font-medium rounded-lg overflow-hidden">
                 <NavLink to="/products">Products</NavLink>
             </li>
-            <li className="font-medium rounded-lg overflow-hidden">
-                <NavLink to="/dashboard/allUsers">Dashboard</NavLink>
-            </li>
-            {!user && (
+            {user?.uid ? (
+                <li className="font-medium rounded-lg overflow-hidden">
+                    <NavLink to="/dashboard/allUsers">Dashboard</NavLink>
+                </li>
+            ) : (
                 <>
                     <li className="font-medium rounded-lg overflow-hidden">
                         <NavLink to="/signUp">sign Up</NavLink>

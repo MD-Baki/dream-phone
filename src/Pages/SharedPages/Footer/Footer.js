@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../../assets/logo.png";
 import fbImg from "../../../assets/social-icon/fb.png";
-import utubeImg from "../../../assets/social-icon/utube.png";
+import twitImg from "../../../assets/social-icon/twitImg.png";
 import wappImg from "../../../assets/social-icon/wapp.png";
 
 const Footer = () => {
@@ -48,11 +48,8 @@ const Footer = () => {
                         >
                             <img src={fbImg} alt="" className="h-14" />
                         </a>
-                        <a
-                            href="https://www.youtube.com/@mdbaki01"
-                            target="blank"
-                        >
-                            <img src={utubeImg} alt="" className="h-14" />
+                        <a href="https://twitter.com/" target="blank">
+                            <img src={twitImg} alt="" className="h-14" />
                         </a>
                         <a href="https://web.whatsapp.com/" target="blank">
                             <img src={wappImg} alt="" className="h-14" />

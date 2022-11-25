@@ -8,6 +8,7 @@ import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
 import Home from "../Pages/HomePage/Home/Home";
 import SignIn from "../Pages/SignIn/SignIn";
 import SignUp from "../Pages/SignUp/SignUp";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
     {
@@ -34,7 +35,11 @@ export const router = createBrowserRouter([
     },
     {
         path: "/dashboard",
-        element: <DashboardLayout></DashboardLayout>,
+        element: (
+            <PrivateRoute>
+                <DashboardLayout></DashboardLayout>
+            </PrivateRoute>
+        ),
         children: [
             {
                 path: "/dashboard/allUsers",

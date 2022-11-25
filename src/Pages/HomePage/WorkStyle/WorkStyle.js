@@ -26,14 +26,14 @@ const WorkStyle = () => {
 
     return (
         <div className="pb-5  uppercase">
-            <h2 className="text-2xl font-medium text-primary text-center pt-5 pb-6">
+            <h2 className="text-2xl font-medium text-primary text-center py-6">
                 How Dream Phones Works
             </h2>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mx-6 lg:mx-0">
                 {works.map((work, i) => (
                     <div
                         key={i}
-                        className="text-center shadow-lg p-4 rounded-lg hover:bg-primary hover:bg-opacity-30 transition ease-linear delay-150"
+                        className="text-center shadow-lg p-4 rounded-lg hover:bg-primary hover:bg-opacity-30 ease-out duration-300"
                     >
                         <img
                             src={work.icon}

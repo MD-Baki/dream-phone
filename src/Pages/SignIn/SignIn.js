@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import authimg from "../../assets/login/Computer login-amico.png";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../../Context/AuthProvider";
@@ -14,6 +14,10 @@ const SignIn = () => {
     } = useForm();
     const { signIn } = useContext(AuthContext);
     const [loginError, setLoginError] = useState("");
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || "/";
 
     const handleSignUp = (data) => {
         console.log(data);
@@ -24,6 +28,7 @@ const SignIn = () => {
                 const user = result.user;
                 console.log(user);
                 toast.success("Login Successfully");
+                navigate(from, { replace: true });
             })
             .catch((error) => {
                 console.error(error);

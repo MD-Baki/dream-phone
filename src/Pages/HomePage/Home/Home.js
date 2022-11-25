@@ -1,4 +1,5 @@
 import React from "react";
+import AllCategory from "../AllCategory/AllCategory";
 import BannerSlider from "../BnaaerSlider/BannerSlider";
 import WorkStyle from "../WorkStyle/WorkStyle";
 
@@ -7,6 +8,7 @@ const Home = () => {
         <div>
             <BannerSlider />
             <WorkStyle />
+            <AllCategory />
         </div>
     );
 };

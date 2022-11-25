@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import authimg from "../../assets/login/Computer login-amico.png";
 import { ImGoogle3 } from "react-icons/im";
 import { AuthContext } from "../../Context/AuthProvider";
@@ -14,6 +14,7 @@ const SignUp = () => {
     } = useForm();
     const { createUser, updateUser } = useContext(AuthContext);
     const [signUpError, setSignUpError] = useState("");
+    const navigate = useNavigate();
 
     const handleSignUp = (data) => {
         console.log(data);
@@ -24,6 +25,7 @@ const SignUp = () => {
                 const user = result.user;
                 console.log(user);
                 toast.success("User Created Successfully");
+                navigate("/");
 
                 const userInfo = {
                     displayName: data.name,
