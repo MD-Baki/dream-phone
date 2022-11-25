@@ -6,6 +6,7 @@ import AllProducts from "../Pages/Dashboard/AllProducts/AllProducts";
 import AllSeller from "../Pages/Dashboard/AllSeller/AllSeller";
 import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
 import Home from "../Pages/HomePage/Home/Home";
+import Products from "../Pages/Products/Products";
 import SignIn from "../Pages/SignIn/SignIn";
 import SignUp from "../Pages/SignUp/SignUp";
 import PrivateRoute from "./PrivateRoute";
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
             {
                 path: "/home",
                 element: <Home />,
+            },
+            {
+                path: "/products",
+                element: <Products />,
             },
             {
                 path: "/signUp",

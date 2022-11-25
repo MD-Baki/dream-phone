@@ -1,15 +1,67 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+// import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { AuthContext } from "../../../Context/AuthProvider";
 
 const AddProduct = () => {
     const {
         register,
         formState: { errors },
         handleSubmit,
+        reset,
     } = useForm();
+    // const navigate = useNavigate();
+    const imgHostkey = process.env.REACT_APP_imgbb_key;
+    const { user } = useContext(AuthContext);
+
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        fetch(`${process.env.REACT_APP_API_URI}/productsCategories`)
+            .then((res) => res.json())
+            .then((data) => setCategories(data));
+    });
 
     const handleSignUp = (data) => {
-        console.log(data);
+        const image = data.photo[0];
+        const formData = new FormData();
+        formData.append("image", image);
+        const url = `https://api.imgbb.com/1/upload?key=${imgHostkey}`;
+        fetch(url, {
+            method: "POST",
+            body: formData,
+        })
+            .then((res) => res.json())
+            .then((imgData) => {
+                if (imgData.success) {
+                    const product = {
+                        seller: user?.displayName,
+                        email: user?.email,
+                        brand: data.brand,
+                        productName: data.productName,
+                        image: imgData.data.url,
+                        purchase: data.purchase,
+                        selling: data.selling,
+                        location: data.location,
+                        details: data.details,
+                    };
+
+                    fetch(`${process.env.REACT_APP_API_URI}/allProducts`, {
+                        method: "POST",
+                        headers: {
+                            "content-type": "application/json",
+                        },
+                        body: JSON.stringify(product),
+                    })
+                        .then((res) => res.json())
+                        .then((result) => {
+                            console.log(result);
+                            toast.success("Product Add Successfully");
+                            // navigate("/dashboard/addProduct");
+                        });
+                }
+            });
     };
 
     return (
@@ -29,42 +81,24 @@ const AddProduct = () => {
                             <span className="label-text">Seller Name</span>
                         </label>
                         <input
-                            {...register("name", {
-                                required: "Required",
-                            })}
+                            {...register("name")}
                             type="text"
-                            placeholder="Seller Name"
+                            defaultValue={user?.displayName}
+                            disabled
                             className="input input-primary"
                         />
-                        {errors.name && (
-                            <p
-                                role="alert"
-                                className="text-right text-xs font-bold pt-1 pr-2 text-red-600"
-                            >
-                                {errors.name?.message}
-                            </p>
-                        )}
                     </div>
                     <div className="form-control">
                         <label className="label  font-bold text-secondary">
                             <span className="label-text">Seller Email</span>
                         </label>
                         <input
-                            {...register("email", {
-                                required: "Required",
-                            })}
+                            {...register("email")}
                             type="email"
-                            placeholder="Your Email"
+                            defaultValue={user?.email}
+                            disabled
                             className="input input-primary"
                         />
-                        {errors.email && (
-                            <p
-                                role="alert"
-                                className="text-right text-xs font-bold pt-1 pr-2 text-red-600"
-                            >
-                                {errors.email?.message}
-                            </p>
-                        )}
                     </div>
                     <div className="form-control">
                         <label className="label  font-bold text-secondary">
@@ -72,19 +106,18 @@ const AddProduct = () => {
                         </label>
 
                         <input
-                            {...register("photoURL", {
+                            {...register("photo", {
                                 required: "Required",
                             })}
-                            type="url"
-                            placeholder="Photo URL"
-                            className="input input-primary"
+                            type="file"
+                            className="file-input file-input-primary w-full"
                         />
-                        {errors.photoURL && (
+                        {errors.photo && (
                             <p
                                 role="alert"
                                 className="text-right text-xs font-bold pt-1 pr-2 text-red-600"
                             >
-                                {errors.photoURL?.message}
+                                {errors.photo?.message}
                             </p>
                         )}
                     </div>
@@ -98,12 +131,11 @@ const AddProduct = () => {
                             {...register("brand", { required: true })}
                             className="select select-primary w-full"
                         >
-                            <option value="samsung">Samsung</option>
-                            <option value="iphone">Iphone</option>
-                            <option value="redmi">Redmi</option>
-                            <option value="realme">Realme</option>
-                            <option value="oppo">Oppo</option>
-                            <option value="vivo">Vivo</option>
+                            {categories.map((category) => (
+                                <option key={category._id} value={category._id}>
+                                    {category.name}
+                                </option>
+                            ))}
                         </select>
                     </div>
                     <div className="form-control">
@@ -150,6 +182,27 @@ const AddProduct = () => {
                     </div>
                     <div className="form-control col-span-2">
                         <label className="label  font-bold text-secondary">
+                            <span className="label-text">Product Name</span>
+                        </label>
+                        <input
+                            {...register("productName", {
+                                required: "Required",
+                            })}
+                            type="text"
+                            placeholder="Product Name"
+                            className="input input-primary"
+                        />
+                        {errors.productName && (
+                            <p
+                                role="alert"
+                                className="text-right text-xs font-bold pt-1 pr-2 text-red-600"
+                            >
+                                {errors.productName?.message}
+                            </p>
+                        )}
+                    </div>
+                    <div className="form-control col-span-2">
+                        <label className="label  font-bold text-secondary">
                             <span className="label-text">Pick Up Location</span>
                         </label>
                         <input
@@ -169,6 +222,7 @@ const AddProduct = () => {
                             </p>
                         )}
                     </div>
+
                     <div className="form-control col-span-2">
                         <label className="label  font-bold text-secondary">
                             <span className="label-text">Product Details</span>
