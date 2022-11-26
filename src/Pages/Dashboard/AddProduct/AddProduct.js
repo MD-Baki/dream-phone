@@ -9,7 +9,6 @@ const AddProduct = () => {
         register,
         formState: { errors },
         handleSubmit,
-        reset,
     } = useForm();
     // const navigate = useNavigate();
     const imgHostkey = process.env.REACT_APP_imgbb_key;

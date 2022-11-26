@@ -18,7 +18,7 @@ const Navbar = () => {
             </li>
             {user?.uid ? (
                 <li className="font-medium rounded-lg overflow-hidden">
-                    <NavLink to="/dashboard/allUsers">Dashboard</NavLink>
+                    <NavLink to="/dashboard">Dashboard</NavLink>
                 </li>
             ) : (
                 <>

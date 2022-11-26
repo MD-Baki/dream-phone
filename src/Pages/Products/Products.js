@@ -7,7 +7,11 @@ import ProductsCard from "./ProductsCard/ProductsCard";
 const Products = () => {
     const [productModal, setProductModal] = useState(null);
 
-    const { data: products = [], isLoading } = useQuery({
+    const {
+        data: products = [],
+        isLoading,
+        refetch,
+    } = useQuery({
         queryKey: ["productList"],
         queryFn: async () => {
             const res = await fetch(
@@ -24,12 +28,6 @@ const Products = () => {
 
     return (
         <div>
-            {/* <div className="h-[300px] overflow-hidden rounded-lg shadow-lg">
-                <img
-                    src="https://i.ibb.co/d2GGpqb/24595852-2202-w039-n003-110b-p1-110.jpg"
-                    alt=""
-                />
-            </div> */}
             <div className="pb-10 px-5 lg:px-0">
                 <h2 className="text-2xl font-medium text-primary text-center py-6">
                     All Products
@@ -47,6 +45,7 @@ const Products = () => {
                     <Modal
                         product={productModal}
                         setProduct={setProductModal}
+                        refetch={refetch}
                     ></Modal>
                 )}
             </div>

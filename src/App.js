@@ -8,7 +8,11 @@ function App() {
     return (
         <>
             <RouterProvider router={router} />
-            <ToastContainer position="top-center" theme="dark" />
+            <ToastContainer
+                position="top-center"
+                theme="dark"
+                autoClose={2000}
+            />
         </>
     );
 }

@@ -5,6 +5,7 @@ import authimg from "../../assets/login/Computer login-amico.png";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../../Context/AuthProvider";
 import { toast } from "react-toastify";
+import { GoogleAuthProvider } from "firebase/auth";
 
 const SignIn = () => {
     const {
@@ -12,7 +13,7 @@ const SignIn = () => {
         formState: { errors },
         handleSubmit,
     } = useForm();
-    const { signIn } = useContext(AuthContext);
+    const { signIn, providerLogin } = useContext(AuthContext);
     const [loginError, setLoginError] = useState("");
     const navigate = useNavigate();
     const location = useLocation();
@@ -34,6 +35,18 @@ const SignIn = () => {
                 console.error(error);
                 setLoginError(error.message);
             });
+    };
+
+    const googleProvider = new GoogleAuthProvider();
+    const handleGoogleSignIn = () => {
+        providerLogin(googleProvider)
+            .then((result) => {
+                const user = result.user;
+                console.log(user);
+                toast.success("User Sign In Successfully");
+                navigate(from, { replace: true });
+            })
+            .catch((err) => console.error(err));
     };
 
     return (
@@ -111,8 +124,11 @@ const SignIn = () => {
                         <div className="divider font-bold text-secondary">
                             OR
                         </div>
-                        <button className="btn btn-block btn-outline border-primary text-primary border-2 capitalize hover:bg-gradient-to-r from-primary to-[#083f50] hover:border-primary">
-                            <FcGoogle className="text-lg mr-2" /> Google Sign Up
+                        <button
+                            onClick={handleGoogleSignIn}
+                            className="btn btn-block btn-outline border-primary text-primary border-2 capitalize hover:bg-gradient-to-r from-primary to-[#083f50] hover:border-primary"
+                        >
+                            <FcGoogle className="text-lg mr-2" /> Google Sign In
                         </button>
                         <p className="text-lg font-light text-center pt-4 text-primary">
                             New to Dream Phones?{" "}

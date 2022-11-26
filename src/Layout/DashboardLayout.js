@@ -43,6 +43,11 @@ const DashboardLayout = () => {
                             </div>
                             <ul className="grid gap-5">
                                 <li>
+                                    <NavLink to="/dashboard" className="border">
+                                        MY Orders
+                                    </NavLink>
+                                </li>
+                                <li>
                                     <NavLink
                                         to="/dashboard/allUsers"
                                         className="border"

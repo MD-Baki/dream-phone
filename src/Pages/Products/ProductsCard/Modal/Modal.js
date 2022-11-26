@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { AuthContext } from "../../../../Context/AuthProvider";
 
-const Modal = ({ setProduct, product }) => {
+const Modal = ({ setProduct, product, refetch }) => {
     const { user } = useContext(AuthContext);
-    const { _id, productName, selling, location, details } = product;
+    const { _id, productName, selling, location, details, image } = product;
 
     const handleBooking = (event) => {
         event.preventDefault();
@@ -16,9 +17,10 @@ const Modal = ({ setProduct, product }) => {
         const pickUpLocation = form.pickUpLocation.value;
         const phone = form.phone.value || "undefined";
 
-        const booking = {
+        const bookingProduct = {
             productId: _id,
             productName: productName,
+            productImage: image,
             buyerName: userName,
             email,
             price,
@@ -26,7 +28,25 @@ const Modal = ({ setProduct, product }) => {
             pickUpLocation,
             phone,
         };
-        console.log(booking);
+
+        fetch(`${process.env.REACT_APP_API_URI}/bookingProduct`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(bookingProduct),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                if (data.acknowledged) {
+                    setProduct(null);
+                    toast.success("Product Booking Successfully");
+                    refetch();
+                } else {
+                    toast.error(data.message);
+                }
+            });
     };
 
     return (
@@ -39,7 +59,9 @@ const Modal = ({ setProduct, product }) => {
             <div className="modal">
                 <div className="modal-box">
                     <div className="border-b pb-3 flex justify-between items-center">
-                        <h3 className="font-bold text-lg">{productName}</h3>
+                        <h3 className="font-bold text-lg text-primary">
+                            {productName}
+                        </h3>
                         <label
                             htmlFor="product-modal"
                             className="btn btn-sm btn-circle btn-primary"
@@ -104,6 +126,7 @@ const Modal = ({ setProduct, product }) => {
                                     type="text"
                                     placeholder="Location"
                                     className="input input-bordered w-full"
+                                    required
                                 />
                             </div>
                             <div>
@@ -115,6 +138,7 @@ const Modal = ({ setProduct, product }) => {
                                     type="number"
                                     placeholder="Phone Number"
                                     className="input input-bordered w-full"
+                                    required
                                 />
                             </div>
                             <input
@@ -125,12 +149,19 @@ const Modal = ({ setProduct, product }) => {
                         </form>
                     ) : (
                         <div className="pt-4">
-                            <p>{details}</p>
-                            <div className="text-right pt-4">
-                                <Link to="/signIn" className="btn btn-primary ">
-                                    Login First
+                            <img src={image} alt="" />
+                            <p className="pt-4">
+                                <strong>Product Details:</strong> {details}
+                            </p>
+                            <p className="text-center font-light text-lg pt-3 mt-3 border-t">
+                                <Link
+                                    to="/signIn"
+                                    className="font-medium text-primary link-hover"
+                                >
+                                    Please Login Now{" "}
                                 </Link>
-                            </div>
+                                to purchase this product
+                            </p>
                         </div>
                     )}
                 </div>

@@ -5,6 +5,7 @@ import authimg from "../../assets/login/Computer login-amico.png";
 import { ImGoogle3 } from "react-icons/im";
 import { AuthContext } from "../../Context/AuthProvider";
 import { toast } from "react-toastify";
+import { GoogleAuthProvider } from "firebase/auth";
 
 const SignUp = () => {
     const {
@@ -12,7 +13,7 @@ const SignUp = () => {
         formState: { errors },
         handleSubmit,
     } = useForm();
-    const { createUser, updateUser } = useContext(AuthContext);
+    const { createUser, updateUser, providerLogin } = useContext(AuthContext);
     const [signUpError, setSignUpError] = useState("");
     const navigate = useNavigate();
 
@@ -25,19 +26,48 @@ const SignUp = () => {
                 const user = result.user;
                 console.log(user);
                 toast.success("User Created Successfully");
-                navigate("/");
 
                 const userInfo = {
                     displayName: data.name,
                     photoURL: data.photoURL,
                 };
                 updateUser(userInfo)
-                    .then(() => {})
+                    .then(() => {
+                        saveUser(data.name, data.email, data.role);
+                    })
                     .catch((error) => console.log(error));
             })
             .catch((err) => {
                 console.error(err);
                 setSignUpError(err.message);
+            });
+    };
+
+    const googleProvider = new GoogleAuthProvider();
+    const handleGoogleSignUp = () => {
+        providerLogin(googleProvider)
+            .then((result) => {
+                const user = result.user;
+                console.log(user);
+                toast.success("User Sign Up Successfully");
+                navigate("/");
+            })
+            .catch((err) => console.error(err));
+    };
+
+    const saveUser = (name, email, role) => {
+        const user = { name, email, role };
+        fetch(`${process.env.REACT_APP_API_URI}/users`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(user),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                navigate("/");
             });
     };
 
@@ -126,7 +156,7 @@ const SignUp = () => {
                                 </span>
                             </label>
                             <select
-                                {...register("type", { required: true })}
+                                {...register("role", { required: true })}
                                 className="select select-primary w-full"
                             >
                                 <option value="User">User</option>
@@ -177,7 +207,10 @@ const SignUp = () => {
                         <div className="divider font-bold text-secondary">
                             OR
                         </div>
-                        <button className="btn btn-block btn-outline border-primary text-primary border-2 capitalize hover:bg-gradient-to-r from-primary to-[#083f50] hover:border-primary">
+                        <button
+                            onClick={handleGoogleSignUp}
+                            className="btn btn-block btn-outline border-primary text-primary border-2 capitalize hover:bg-gradient-to-r from-primary to-[#083f50] hover:border-primary"
+                        >
                             <ImGoogle3 className="text-lg mr-2" /> Google Sign
                             Up
                         </button>

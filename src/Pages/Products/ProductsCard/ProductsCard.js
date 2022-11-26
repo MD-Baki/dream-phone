@@ -59,7 +59,7 @@ const ProductsCard = ({ product, setProduct }) => {
                         htmlFor="product-modal"
                         className="btn btn-primary btn-sm text-xs btn-block"
                     >
-                        open modal
+                        buy now
                     </label>
                 </div>
             </div>
