@@ -1,16 +1,28 @@
 import React from "react";
 import "./ProductsCard.css";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import { PhotoProvider, PhotoView } from "react-photo-view";
 
-const ProductsCard = ({ product }) => {
+const ProductsCard = ({ product, setProduct }) => {
     const { productName, image, purchase, selling, location, details } =
         product;
 
     return (
         <div className="border rounded-lg shadow-lg pl-5 py-5">
             <div className="relative pr-5">
-                <img src={image} alt="" />
-                <div className="absolute top-0 right-0 shadow-lg">
+                <figure>
+                    <PhotoProvider>
+                        <PhotoView src={image}>
+                            <img
+                                src={image}
+                                style={{ objectFit: "cover" }}
+                                alt=""
+                                className="w-full"
+                            />
+                        </PhotoView>
+                    </PhotoProvider>
+                </figure>
+                <div className="absolute top-0 right-0">
                     <p className="mark bg-orange-600 text-white pr-3 pl-7 py-px lg:py-2  uppercase">
                         used
                     </p>
@@ -42,9 +54,13 @@ const ProductsCard = ({ product }) => {
                     <button className="btn btn-outline btn-primary btn-sm text-xs btn-block">
                         favorite
                     </button>
-                    <button className="btn btn-primary btn-sm text-xs btn-block">
-                        favorite
-                    </button>
+                    <label
+                        onClick={() => setProduct(product)}
+                        htmlFor="product-modal"
+                        className="btn btn-primary btn-sm text-xs btn-block"
+                    >
+                        open modal
+                    </label>
                 </div>
             </div>
         </div>

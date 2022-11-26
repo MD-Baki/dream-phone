@@ -1,14 +1,23 @@
-import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React from "react";
+import Spinner from "../../../Components/Spinner/Spinner";
 import CategoryCart from "./CategoryCart";
 
 const AllCategory = () => {
-    const [categories, setCategories] = useState([]);
-
-    useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URI}/productsCategories`)
-            .then((res) => res.json())
-            .then((data) => setCategories(data));
+    const { data: categories = [], isLoading } = useQuery({
+        queryKey: ["productList"],
+        queryFn: async () => {
+            const res = await fetch(
+                `${process.env.REACT_APP_API_URI}/productsCategories`
+            );
+            const data = await res.json();
+            return data;
+        },
     });
+
+    if (isLoading) {
+        return <Spinner />;
+    }
 
     return (
         <div className="uppercase py-6">

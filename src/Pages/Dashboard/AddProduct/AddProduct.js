@@ -74,7 +74,7 @@ const AddProduct = () => {
                 </div>
                 <form
                     onSubmit={handleSubmit(handleSignUp)}
-                    className="px-8 grid grid-cols-2 gap-x-6 gap-y-2"
+                    className="px-8 grid md:grid-cols-2 gap-x-6 gap-y-2"
                 >
                     <div className="form-control">
                         <label className="label  font-bold text-secondary">
@@ -180,7 +180,7 @@ const AddProduct = () => {
                             </p>
                         )}
                     </div>
-                    <div className="form-control col-span-2">
+                    <div className="form-control md:col-span-2">
                         <label className="label  font-bold text-secondary">
                             <span className="label-text">Product Name</span>
                         </label>
@@ -201,7 +201,7 @@ const AddProduct = () => {
                             </p>
                         )}
                     </div>
-                    <div className="form-control col-span-2">
+                    <div className="form-control md:col-span-2">
                         <label className="label  font-bold text-secondary">
                             <span className="label-text">Pick Up Location</span>
                         </label>
@@ -223,7 +223,7 @@ const AddProduct = () => {
                         )}
                     </div>
 
-                    <div className="form-control col-span-2">
+                    <div className="form-control md:col-span-2">
                         <label className="label  font-bold text-secondary">
                             <span className="label-text">Product Details</span>
                         </label>
@@ -247,7 +247,7 @@ const AddProduct = () => {
                     <input
                         type="submit"
                         value="Add Product"
-                        className="btn btn-block btn-primary bg-gradient-to-r from-primary to-[#083f50] text-white mt-5 shadow-lg col-span-2"
+                        className="btn btn-block btn-primary bg-gradient-to-r from-primary to-[#083f50] text-white mt-5 shadow-lg md:col-span-2"
                     />
                 </form>
             </div>
