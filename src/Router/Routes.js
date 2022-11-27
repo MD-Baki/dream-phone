@@ -5,6 +5,7 @@ import AddProduct from "../Pages/Dashboard/AddProduct/AddProduct";
 import AllProducts from "../Pages/Dashboard/AllProducts/AllProducts";
 import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
 import MyOrders from "../Pages/Dashboard/MyOrders/MyOrders";
+import CategoryItems from "../Pages/HomePage/AllCategory/CategoryItems/CategoryItems";
 import Home from "../Pages/HomePage/Home/Home";
 import Products from "../Pages/Products/Products";
 import SignIn from "../Pages/SignIn/SignIn";
@@ -29,6 +30,14 @@ export const router = createBrowserRouter([
             {
                 path: "/products",
                 element: <Products />,
+            },
+            {
+                path: "/category/:id",
+                element: <CategoryItems />,
+                loader: ({ params }) =>
+                    fetch(
+                        `${process.env.REACT_APP_API_URI}/category/${params.id}`
+                    ),
             },
             {
                 path: "/signUp",

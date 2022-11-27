@@ -1,16 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Spinner from "../../../Components/Spinner/Spinner";
 import { AuthContext } from "../../../Context/AuthProvider";
 
 const AddProduct = () => {
+    const [posting, setPosting] = useState(false);
     const {
         register,
         formState: { errors },
         handleSubmit,
     } = useForm();
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const imgHostkey = process.env.REACT_APP_imgbb_key;
     const { user } = useContext(AuthContext);
 
@@ -23,6 +25,7 @@ const AddProduct = () => {
     });
 
     const handleSignUp = (data) => {
+        setPosting(true);
         const image = data.photo[0];
         const formData = new FormData();
         formData.append("image", image);
@@ -43,6 +46,8 @@ const AddProduct = () => {
                         purchase: data.purchase,
                         selling: data.selling,
                         location: data.location,
+                        usingYears: data.usingYears,
+                        postDate: data.postDate,
                         details: data.details,
                     };
 
@@ -55,13 +60,17 @@ const AddProduct = () => {
                     })
                         .then((res) => res.json())
                         .then((result) => {
-                            console.log(result);
+                            setPosting(false);
                             toast.success("Product Add Successfully");
-                            // navigate("/dashboard/addProduct");
+                            navigate("/products");
                         });
                 }
             });
     };
+
+    if (posting) {
+        return <Spinner />;
+    }
 
     return (
         <div className="w-11/12 lg:w-9/12 mx-auto pt-16 pb-32">
@@ -71,6 +80,7 @@ const AddProduct = () => {
                         Add Your Product for Sell
                     </h4>
                 </div>
+
                 <form
                     onSubmit={handleSubmit(handleSignUp)}
                     className="px-8 grid md:grid-cols-2 gap-x-6 gap-y-2"
@@ -179,6 +189,49 @@ const AddProduct = () => {
                             </p>
                         )}
                     </div>
+                    <div className="form-control">
+                        <label className="label  font-bold text-secondary">
+                            <span className="label-text">Year Of Used</span>
+                        </label>
+                        <input
+                            {...register("usingYears", {
+                                required: "Required",
+                            })}
+                            type="number"
+                            placeholder="Year of used"
+                            className="input input-primary"
+                        />
+                        {errors.usingYears && (
+                            <p
+                                role="alert"
+                                className="text-right text-xs font-bold pt-1 pr-2 text-red-600"
+                            >
+                                {errors.usingYears?.message}
+                            </p>
+                        )}
+                    </div>
+                    <div className="form-control">
+                        <label className="label  font-bold text-secondary">
+                            <span className="label-text">Post Date</span>
+                        </label>
+                        <input
+                            {...register("postDate", {
+                                required: "Required",
+                            })}
+                            type="date"
+                            placeholder="Post Date"
+                            className="input input-primary"
+                        />
+                        {errors.postDate && (
+                            <p
+                                role="alert"
+                                className="text-right text-xs font-bold pt-1 pr-2 text-red-600"
+                            >
+                                {errors.postDate?.message}
+                            </p>
+                        )}
+                    </div>
+
                     <div className="form-control md:col-span-2">
                         <label className="label  font-bold text-secondary">
                             <span className="label-text">Product Name</span>
@@ -202,7 +255,7 @@ const AddProduct = () => {
                     </div>
                     <div className="form-control md:col-span-2">
                         <label className="label  font-bold text-secondary">
-                            <span className="label-text">Pick Up Location</span>
+                            <span className="label-text">Seller Location</span>
                         </label>
                         <input
                             {...register("location", {

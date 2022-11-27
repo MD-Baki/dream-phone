@@ -1,11 +1,19 @@
 import React from "react";
 import "./ProductsCard.css";
-import { FaMapMarkerAlt } from "react-icons/fa";
+import { FaMapMarkerAlt, FaRegCalendarCheck, FaClock } from "react-icons/fa";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 
 const ProductsCard = ({ product, setProduct }) => {
-    const { productName, image, purchase, selling, location, details } =
-        product;
+    const {
+        productName,
+        image,
+        purchase,
+        selling,
+        location,
+        postDate,
+        usingYears,
+        seller,
+    } = product;
 
     return (
         <div className="border rounded-lg shadow-lg pl-5 py-5">
@@ -17,14 +25,15 @@ const ProductsCard = ({ product, setProduct }) => {
                                 src={image}
                                 style={{ objectFit: "cover" }}
                                 alt=""
-                                className="w-full"
+                                className="w-full cursor-zoom-in"
                             />
                         </PhotoView>
                     </PhotoProvider>
                 </figure>
                 <div className="absolute top-0 right-0">
-                    <p className="mark bg-orange-600 text-white pr-3 pl-7 py-px lg:py-2  uppercase">
-                        used
+                    <p className="mark bg-orange-600 text-white pr-3 pl-7 py-px lg:py-2  uppercase flex gap-2 items-center">
+                        <FaClock />
+                        {usingYears} Years
                     </p>
                 </div>
             </div>
@@ -32,22 +41,26 @@ const ProductsCard = ({ product, setProduct }) => {
                 <h2 className="text-lg font-medium text-center py-3">
                     {productName}
                 </h2>
-                <div className="font-light pb-2">
-                    {details.length > 100 ? (
-                        <p>{details.slice(0, 100) + "..."}</p>
-                    ) : (
-                        <p className="text-justify">{details}</p>
-                    )}
-                </div>
-                <div className="flex flex-wrap justify-between gap-2">
-                    <p className="flex items-center gap-1">
-                        <FaMapMarkerAlt /> {location}
+                <div>
+                    <p className="text-lg ">
+                        Seller: <strong>{seller}</strong>
                     </p>
                     <p className="font-light">
-                        Price:
-                        <span className="line-through px-px">${purchase}</span>
-                        <span className="font-medium">${selling}</span>
+                        <span className="font-medium text-lg">
+                            Price: {selling} TK{" "}
+                        </span>
+                        <span className="font-light line-through text-sm">
+                            {purchase} TK
+                        </span>
                     </p>
+                    <div className="flex justify-between text-stone-600 py-1">
+                        <p className="flex items-center gap-1">
+                            <FaMapMarkerAlt /> {location}
+                        </p>
+                        <p className="flex items-center gap-1">
+                            <FaRegCalendarCheck /> {postDate}
+                        </p>
+                    </div>
                 </div>
 
                 <div className="pt-2 grid grid-cols-2 gap-2">

@@ -11,7 +11,7 @@ const DashboardLayout = () => {
     const [isSeller] = useSeller(user?.email);
 
     return (
-        <div className="fixed w-full ">
+        <div className="fixed w-full z-50">
             <div className=" mx-auto">
                 <DashboardNav></DashboardNav>
 

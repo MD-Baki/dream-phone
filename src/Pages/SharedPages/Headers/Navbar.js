@@ -16,6 +16,9 @@ const Navbar = () => {
             <li className="font-medium rounded-lg overflow-hidden">
                 <NavLink to="/products">All Products</NavLink>
             </li>
+            <li className="font-medium rounded-lg overflow-hidden">
+                <NavLink to="/blog">Blog</NavLink>
+            </li>
             {user?.uid ? (
                 <li className="font-medium rounded-lg overflow-hidden">
                     <NavLink to="/dashboard">Dashboard</NavLink>

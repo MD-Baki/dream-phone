@@ -1,12 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import ConfirmationModal from "../../../Components/ConfirmationModal/ConfirmationModal";
+import Spinner from "../../../Components/Spinner/Spinner";
 import { AuthContext } from "../../../Context/AuthProvider";
 
 const MyOrders = () => {
     const { user } = useContext(AuthContext);
+    const [deletingBookedProduct, setDeletingBookedProduct] = useState(null);
 
-    const { data: bookingsProduct = [] } = useQuery({
+    const {
+        data: bookingsProduct = [],
+        refetch,
+        isLoading,
+    } = useQuery({
         queryKey: ["bookingsProduct", user?.email],
         queryFn: async () => {
             const res = await fetch(
@@ -24,6 +32,33 @@ const MyOrders = () => {
         },
     });
 
+    const handleDeleteBookedProduct = (booking) => {
+        fetch(
+            `${process.env.REACT_APP_API_URI}/bookingsProduct/${booking._id}`,
+            {
+                method: "DELETE",
+                headers: {
+                    authorization: `bearer ${localStorage.getItem(
+                        "accessToken"
+                    )}`,
+                },
+            }
+        )
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.deletedCount > 0) {
+                    refetch();
+                    toast.success(
+                        `${booking.productName} Deleted Successfully`
+                    );
+                }
+            });
+    };
+
+    if (isLoading) {
+        return <Spinner />;
+    }
+
     return (
         <div className="px-5 py-10">
             <h2 className="text-2xl font-bold pb-4">MY Orders</h2>
@@ -35,7 +70,6 @@ const MyOrders = () => {
                             <th>Product Info</th>
                             <th>Buyer Info</th>
                             <th>Contact Info</th>
-                            <th>Purchase</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -58,7 +92,7 @@ const MyOrders = () => {
                                                 {booking.productName}
                                             </div>
                                             <div className="text-sm opacity-70">
-                                                Price: ${booking.price}
+                                                Price: {booking.price} TK
                                             </div>
                                         </div>
                                     </div>
@@ -80,20 +114,32 @@ const MyOrders = () => {
                                     </div>
                                 </td>
                                 <td>
-                                    <Link className="btn btn-sm btn-primary text-xs">
+                                    <Link className="btn btn-sm btn-primary text-xs mr-2">
                                         Pay Now
                                     </Link>
-                                </td>
-                                <td>
-                                    <button className="btn btn-sm btn-error bg-gradient-to-r from-red-600 to-orange-600 text-xs text-white">
+                                    <label
+                                        onClick={() =>
+                                            setDeletingBookedProduct(booking)
+                                        }
+                                        htmlFor="confirmation-modal"
+                                        className="btn btn-sm btn-error bg-gradient-to-r from-red-600 to-orange-600 text-xs text-white"
+                                    >
                                         delete
-                                    </button>
+                                    </label>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
+            {deletingBookedProduct && (
+                <ConfirmationModal
+                    title={`Are you sure you want to delete`}
+                    message={`If you delete ${deletingBookedProduct.productName}. It Cannot be undone`}
+                    successAction={handleDeleteBookedProduct}
+                    modalData={deletingBookedProduct}
+                ></ConfirmationModal>
+            )}
         </div>
     );
 };
