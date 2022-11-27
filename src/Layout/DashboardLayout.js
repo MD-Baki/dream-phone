@@ -1,10 +1,14 @@
 import React, { useContext } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../Context/AuthProvider";
+import useAdmin from "../Hooks/useAdmin";
+import useSeller from "../Hooks/useSeller";
 import DashboardNav from "../Pages/SharedPages/DashboardNav/DashboardNav";
 
 const DashboardLayout = () => {
     const { user } = useContext(AuthContext);
+    const [isAdmin] = useAdmin(user?.email);
+    const [isSeller] = useSeller(user?.email);
 
     return (
         <div className="fixed w-full ">
@@ -43,42 +47,51 @@ const DashboardLayout = () => {
                             </div>
                             <ul className="grid gap-5">
                                 <li>
-                                    <NavLink to="/dashboard" className="border">
+                                    <NavLink
+                                        to="/dashboard/myOrders"
+                                        className="border"
+                                    >
                                         MY Orders
                                     </NavLink>
                                 </li>
-                                <li>
-                                    <NavLink
-                                        to="/dashboard/allUsers"
-                                        className="border"
-                                    >
-                                        All Users
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink
-                                        to="/dashboard/allSeller"
-                                        className="border"
-                                    >
-                                        All Seller
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink
-                                        to="/dashboard/addProduct"
-                                        className="border"
-                                    >
-                                        Add Product
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink
-                                        to="/dashboard/allProducts"
-                                        className="border"
-                                    >
-                                        All Products
-                                    </NavLink>
-                                </li>
+                                {isAdmin && (
+                                    <>
+                                        <li>
+                                            <NavLink
+                                                to="/dashboard/allUsers"
+                                                className="border"
+                                            >
+                                                All Users
+                                            </NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink
+                                                to="/dashboard/allProducts"
+                                                className="border"
+                                            >
+                                                All Products
+                                            </NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink
+                                                to="/dashboard/addProduct"
+                                                className="border"
+                                            >
+                                                Add Product
+                                            </NavLink>
+                                        </li>
+                                    </>
+                                )}
+                                {isSeller && (
+                                    <li>
+                                        <NavLink
+                                            to="/dashboard/addProducts"
+                                            className="border"
+                                        >
+                                            Add Product
+                                        </NavLink>
+                                    </li>
+                                )}
                                 <li>
                                     <NavLink to="/home" className="border">
                                         Back Home

@@ -10,7 +10,14 @@ const MyOrders = () => {
         queryKey: ["bookingsProduct", user?.email],
         queryFn: async () => {
             const res = await fetch(
-                `${process.env.REACT_APP_API_URI}/bookingProduct?email=${user?.email}`
+                `${process.env.REACT_APP_API_URI}/bookingProduct?email=${user?.email}`,
+                {
+                    headers: {
+                        authorization: `bearer ${localStorage.getItem(
+                            "accessToken"
+                        )}`,
+                    },
+                }
             );
             const data = await res.json();
             return data;
@@ -74,7 +81,7 @@ const MyOrders = () => {
                                 </td>
                                 <td>
                                     <Link className="btn btn-sm btn-primary text-xs">
-                                        Payment
+                                        Pay Now
                                     </Link>
                                 </td>
                                 <td>

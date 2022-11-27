@@ -3,14 +3,15 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import Main from "../Layout/Main";
 import AddProduct from "../Pages/Dashboard/AddProduct/AddProduct";
 import AllProducts from "../Pages/Dashboard/AllProducts/AllProducts";
-import AllSeller from "../Pages/Dashboard/AllSeller/AllSeller";
 import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
 import MyOrders from "../Pages/Dashboard/MyOrders/MyOrders";
 import Home from "../Pages/HomePage/Home/Home";
 import Products from "../Pages/Products/Products";
 import SignIn from "../Pages/SignIn/SignIn";
 import SignUp from "../Pages/SignUp/SignUp";
+import AdminRoute from "./AdminRoute";
 import PrivateRoute from "./PrivateRoute";
+import SellerRoute from "./SellerRoute";
 
 export const router = createBrowserRouter([
     {
@@ -52,20 +53,40 @@ export const router = createBrowserRouter([
                 element: <MyOrders></MyOrders>,
             },
             {
+                path: "/dashboard/myOrders",
+                element: <MyOrders></MyOrders>,
+            },
+            {
                 path: "/dashboard/allUsers",
-                element: <AllUsers></AllUsers>,
+                element: (
+                    <AdminRoute>
+                        <AllUsers></AllUsers>
+                    </AdminRoute>
+                ),
             },
             {
                 path: "/dashboard/addProduct",
-                element: <AddProduct></AddProduct>,
+                element: (
+                    <AdminRoute>
+                        <AddProduct></AddProduct>
+                    </AdminRoute>
+                ),
             },
             {
-                path: "/dashboard/allSeller",
-                element: <AllSeller></AllSeller>,
+                path: "/dashboard/addProducts",
+                element: (
+                    <SellerRoute>
+                        <AddProduct></AddProduct>
+                    </SellerRoute>
+                ),
             },
             {
                 path: "/dashboard/allProducts",
-                element: <AllProducts></AllProducts>,
+                element: (
+                    <AdminRoute>
+                        <AllProducts></AllProducts>
+                    </AdminRoute>
+                ),
             },
         ],
     },

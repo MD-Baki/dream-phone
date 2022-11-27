@@ -6,6 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../../Context/AuthProvider";
 import { toast } from "react-toastify";
 import { GoogleAuthProvider } from "firebase/auth";
+import useToken from "../../Hooks/useToken";
 
 const SignIn = () => {
     const {
@@ -15,6 +16,8 @@ const SignIn = () => {
     } = useForm();
     const { signIn, providerLogin } = useContext(AuthContext);
     const [loginError, setLoginError] = useState("");
+    const [loginUserEmail, setLoginUserEmail] = useState("");
+    const [token] = useToken(loginUserEmail);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -29,7 +32,7 @@ const SignIn = () => {
                 const user = result.user;
                 console.log(user);
                 toast.success("Login Successfully");
-                navigate(from, { replace: true });
+                setLoginUserEmail(data.email);
             })
             .catch((error) => {
                 console.error(error);
@@ -44,10 +47,15 @@ const SignIn = () => {
                 const user = result.user;
                 console.log(user);
                 toast.success("User Sign In Successfully");
-                navigate(from, { replace: true });
+                setLoginUserEmail(user.email);
+                // navigate(from, { replace: true });
             })
             .catch((err) => console.error(err));
     };
+
+    if (token) {
+        return navigate(from, { replace: true });
+    }
 
     return (
         <div className="grid lg:grid-cols-2 gap-8 items-center py-16">

@@ -6,6 +6,7 @@ import { ImGoogle3 } from "react-icons/im";
 import { AuthContext } from "../../Context/AuthProvider";
 import { toast } from "react-toastify";
 import { GoogleAuthProvider } from "firebase/auth";
+import useToken from "../../Hooks/useToken";
 
 const SignUp = () => {
     const {
@@ -15,6 +16,8 @@ const SignUp = () => {
     } = useForm();
     const { createUser, updateUser, providerLogin } = useContext(AuthContext);
     const [signUpError, setSignUpError] = useState("");
+    const [createUserEmail, setCreateUserEmail] = useState("");
+    const [token] = useToken(createUserEmail);
     const navigate = useNavigate();
 
     const handleSignUp = (data) => {
@@ -50,7 +53,8 @@ const SignUp = () => {
                 const user = result.user;
                 console.log(user);
                 toast.success("User Sign Up Successfully");
-                navigate("/");
+                saveUser(user.displayName, user.email);
+                setCreateUserEmail(user.email);
             })
             .catch((err) => console.error(err));
     };
@@ -67,9 +71,13 @@ const SignUp = () => {
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);
-                navigate("/");
+                setCreateUserEmail(email);
             });
     };
+
+    if (token) {
+        return navigate("/");
+    }
 
     return (
         <div className="grid lg:grid-cols-2 gap-8 items-center py-16">
