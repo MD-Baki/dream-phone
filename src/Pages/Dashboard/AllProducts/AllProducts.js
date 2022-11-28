@@ -141,6 +141,7 @@ const AllProducts = () => {
                     message={`If you delete ${deletingProduct.productName}. It Cannot be undone`}
                     successAction={handleDeleteProduct}
                     modalData={deletingProduct}
+                    action={"Delete"}
                 ></ConfirmationModal>
             )}
         </div>

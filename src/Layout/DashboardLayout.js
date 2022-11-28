@@ -66,6 +66,14 @@ const DashboardLayout = () => {
                                         </li>
                                         <li>
                                             <NavLink
+                                                to="/dashboard/allSeller"
+                                                className="border"
+                                            >
+                                                All Seller
+                                            </NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink
                                                 to="/dashboard/allProducts"
                                                 className="border"
                                             >

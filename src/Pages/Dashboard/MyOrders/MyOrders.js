@@ -138,6 +138,7 @@ const MyOrders = () => {
                     message={`If you delete ${deletingBookedProduct.productName}. It Cannot be undone`}
                     successAction={handleDeleteBookedProduct}
                     modalData={deletingBookedProduct}
+                    action={"Delete"}
                 ></ConfirmationModal>
             )}
         </div>

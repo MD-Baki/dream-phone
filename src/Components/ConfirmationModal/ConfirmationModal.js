@@ -1,6 +1,12 @@
 import React from "react";
 
-const ConfirmationModal = ({ title, message, successAction, modalData }) => {
+const ConfirmationModal = ({
+    title,
+    message,
+    successAction,
+    modalData,
+    action,
+}) => {
     return (
         <>
             <input
@@ -25,7 +31,7 @@ const ConfirmationModal = ({ title, message, successAction, modalData }) => {
                                 onClick={() => successAction(modalData)}
                                 className="btn btn-error bg-gradient-to-r from-red-600 to-orange-600  text-white w-full"
                             >
-                                Delete
+                                {action}
                             </label>
                         </div>
                     </div>

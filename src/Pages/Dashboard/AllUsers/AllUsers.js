@@ -91,6 +91,7 @@ const AllUsers = () => {
                     message={`If you delete ${deletingUser.name}. It Cannot be undone`}
                     successAction={handleDeleteUser}
                     modalData={deletingUser}
+                    action={"Delete"}
                 ></ConfirmationModal>
             )}
         </div>
