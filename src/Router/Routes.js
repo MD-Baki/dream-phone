@@ -5,9 +5,11 @@ import AddProduct from "../Pages/Dashboard/AddProduct/AddProduct";
 import AllProducts from "../Pages/Dashboard/AllProducts/AllProducts";
 import AllSeller from "../Pages/Dashboard/AllSeller/AllSeller";
 import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
+import MyFavorite from "../Pages/Dashboard/MyFavorite/MyFavorite";
 import MyOrders from "../Pages/Dashboard/MyOrders/MyOrders";
 import CategoryItems from "../Pages/HomePage/AllCategory/CategoryItems/CategoryItems";
 import Home from "../Pages/HomePage/Home/Home";
+import NotFound from "../Pages/NotFound/NotFound";
 import Products from "../Pages/Products/Products";
 import SignIn from "../Pages/SignIn/SignIn";
 import SignUp from "../Pages/SignUp/SignUp";
@@ -67,6 +69,10 @@ export const router = createBrowserRouter([
                 element: <MyOrders></MyOrders>,
             },
             {
+                path: "/dashboard/myFavorite",
+                element: <MyFavorite></MyFavorite>,
+            },
+            {
                 path: "/dashboard/allUsers",
                 element: (
                     <AdminRoute>
@@ -108,4 +114,5 @@ export const router = createBrowserRouter([
             },
         ],
     },
+    { path: "*", element: <NotFound></NotFound> },
 ]);

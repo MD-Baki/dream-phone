@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import Spinner from "../../Components/Spinner/Spinner";
 import Modal from "./ProductsCard/Modal/Modal";
 import ProductsCard from "./ProductsCard/ProductsCard";
@@ -22,6 +23,20 @@ const Products = () => {
         },
     });
 
+    const handleSaveProduct = (product) => {
+        fetch(`${process.env.REACT_APP_API_URI}/saveProduct`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify(product),
+        })
+            .then((res) => res.json())
+            .then((result) => {
+                toast.success("Product Save Successfully");
+            });
+    };
+
     if (isLoading) {
         return <Spinner />;
     }
@@ -38,6 +53,7 @@ const Products = () => {
                             key={product._id}
                             product={product}
                             setProduct={setProductModal}
+                            handleSave={handleSaveProduct}
                         />
                     ))}
                 </div>

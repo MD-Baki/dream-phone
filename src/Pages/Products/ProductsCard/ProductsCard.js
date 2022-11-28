@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./ProductsCard.css";
-import { FaMapMarkerAlt, FaRegCalendarCheck, FaClock } from "react-icons/fa";
+import {
+    FaMapMarkerAlt,
+    FaRegCalendarCheck,
+    FaClock,
+    FaBookmark,
+} from "react-icons/fa";
 import { PhotoProvider, PhotoView } from "react-photo-view";
+import { useQuery } from "@tanstack/react-query";
+import { GoVerified } from "react-icons/go";
+import { AuthContext } from "../../../Context/AuthProvider";
 
-const ProductsCard = ({ product, setProduct }) => {
+const ProductsCard = ({ product, setProduct, handleSave }) => {
+    const { user } = useContext(AuthContext);
     const {
         productName,
         image,
@@ -13,7 +22,21 @@ const ProductsCard = ({ product, setProduct }) => {
         postDate,
         usingYears,
         seller,
+        ads,
     } = product;
+
+    const { data: sellerStates = [], isLoading } = useQuery({
+        queryKey: ["sellerStates"],
+        queryFn: async () => {
+            const res = await fetch(`${process.env.REACT_APP_API_URI}/seller`);
+            const data = await res.json();
+            return data;
+        },
+    });
+
+    if (isLoading) {
+        return <>Loading</>;
+    }
 
     return (
         <div className="border rounded-lg shadow-lg pl-5 py-5">
@@ -36,15 +59,38 @@ const ProductsCard = ({ product, setProduct }) => {
                         {usingYears} Years
                     </p>
                 </div>
+                <p className="absolute left-0 bottom-3 bg-info text-white px-2 rounded capitalize">
+                    {ads}
+                </p>
             </div>
             <div className="border-t mr-5">
                 <h2 className="text-lg font-medium text-center py-3">
                     {productName}
                 </h2>
                 <div>
-                    <p className="text-lg ">
-                        Seller: <strong>{seller}</strong>
-                    </p>
+                    <div className="flex justify-between items-center">
+                        <div className="text-lg flex items-center gap-1">
+                            Seller: <strong>{seller}</strong>
+                            {sellerStates.map((states) => (
+                                <p key={states._id}>
+                                    {states?.name === seller && (
+                                        <span>
+                                            {states?.verify && (
+                                                <GoVerified className="text-info" />
+                                            )}
+                                        </span>
+                                    )}
+                                </p>
+                            ))}
+                        </div>
+                        <button
+                            onClick={() => handleSave(product)}
+                            className="btn btn-primary btn-sm btn-outline"
+                        >
+                            <FaBookmark />
+                        </button>
+                    </div>
+
                     <p className="font-light">
                         <span className="font-medium text-lg">
                             Price: {selling} TK{" "}
@@ -68,7 +114,7 @@ const ProductsCard = ({ product, setProduct }) => {
                         favorite
                     </button>
                     <label
-                        onClick={() => setProduct(product)}
+                        onClick={() => setProduct(product, user.email)}
                         htmlFor="product-modal"
                         className="btn btn-primary btn-sm text-xs btn-block"
                     >

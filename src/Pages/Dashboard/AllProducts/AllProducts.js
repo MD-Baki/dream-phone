@@ -111,7 +111,7 @@ const AllProducts = () => {
                                         </p>
                                     </div>
                                 </div>
-                                <div className="flex text-sm divide-x gap-3">
+                                <div className="flex flex-col md:flex-row text-sm gap-3">
                                     <label
                                         onClick={() =>
                                             setDeletingProduct(product)
