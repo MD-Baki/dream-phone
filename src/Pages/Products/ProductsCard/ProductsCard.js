@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import "./ProductsCard.css";
 import {
     FaMapMarkerAlt,
@@ -9,10 +9,9 @@ import {
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import { useQuery } from "@tanstack/react-query";
 import { GoVerified } from "react-icons/go";
-import { AuthContext } from "../../../Context/AuthProvider";
+import Spinner from "../../../Components/Spinner/Spinner";
 
 const ProductsCard = ({ product, setProduct, handleSave }) => {
-    const { user } = useContext(AuthContext);
     const {
         productName,
         image,
@@ -35,7 +34,7 @@ const ProductsCard = ({ product, setProduct, handleSave }) => {
     });
 
     if (isLoading) {
-        return <>Loading</>;
+        return <Spinner />;
     }
 
     return (
@@ -114,7 +113,7 @@ const ProductsCard = ({ product, setProduct, handleSave }) => {
                         favorite
                     </button>
                     <label
-                        onClick={() => setProduct(product, user.email)}
+                        onClick={() => setProduct(product)}
                         htmlFor="product-modal"
                         className="btn btn-primary btn-sm text-xs btn-block"
                     >

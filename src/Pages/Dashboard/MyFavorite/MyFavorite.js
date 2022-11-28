@@ -1,11 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { toast } from "react-toastify";
+import ConfirmationModal from "../../../Components/ConfirmationModal/ConfirmationModal";
 import Spinner from "../../../Components/Spinner/Spinner";
 import { AuthContext } from "../../../Context/AuthProvider";
 
 const MyFavorite = () => {
     const { user } = useContext(AuthContext);
+    const [deletingFavoriteItem, setDeletingFavoriteItem] = useState(null);
 
     const {
         data: saveProduct = [],
@@ -29,13 +31,30 @@ const MyFavorite = () => {
         },
     });
 
+    const handleDeleteFavoriteItem = (save) => {
+        fetch(`${process.env.REACT_APP_API_URI}/saveProduct/${save._id}`, {
+            method: "DELETE",
+            headers: {
+                authorization: `bearer ${localStorage.getItem("accessToken")}`,
+            },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.deletedCount > 0) {
+                    refetch();
+                    toast.success(`Deleted Successfully`);
+                    console.log(data);
+                }
+            });
+    };
+
     if (isLoading) {
         return <Spinner />;
     }
 
     return (
         <div className="px-5 py-10">
-            <h2 className="text-2xl font-bold pb-4">MY Orders</h2>
+            <h2 className="text-2xl font-bold pb-4">MY Favorite</h2>
             <div className="overflow-x-auto">
                 <table className="table table-zebra w-full">
                     <thead>
@@ -77,6 +96,9 @@ const MyFavorite = () => {
                                 </td>
                                 <td>
                                     <label
+                                        onClick={() =>
+                                            setDeletingFavoriteItem(save)
+                                        }
                                         htmlFor="confirmation-modal"
                                         className="btn btn-sm btn-error bg-gradient-to-r from-red-600 to-orange-600 text-xs text-white"
                                     >
@@ -88,6 +110,15 @@ const MyFavorite = () => {
                     </tbody>
                 </table>
             </div>
+            {deletingFavoriteItem && (
+                <ConfirmationModal
+                    title={`Are you sure you want to delete`}
+                    message={`If you delete ${deletingFavoriteItem.productName}. It Cannot be undone`}
+                    successAction={handleDeleteFavoriteItem}
+                    modalData={deletingFavoriteItem}
+                    action={"Delete"}
+                ></ConfirmationModal>
+            )}
         </div>
     );
 };
