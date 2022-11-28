@@ -55,61 +55,68 @@ const MyFavorite = () => {
     return (
         <div className="px-5 py-10">
             <h2 className="text-2xl font-bold pb-4">MY Favorite</h2>
-            <div className="overflow-x-auto">
-                <table className="table table-zebra w-full">
-                    <thead>
-                        <tr>
-                            <th>no</th>
-                            <th>Product Info</th>
-                            <th>Seller Info</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {saveProduct?.map((save, i) => (
-                            <tr key={save._id}>
-                                <th>{i + 1}</th>
-                                <td>
-                                    <div className="flex items-center space-x-3">
-                                        <div className="avatar">
-                                            <div className="mask rounded-md h-12 w-12">
-                                                <img src={save?.image} alt="" />
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div className="font-bold">
-                                                {save.productName}
-                                            </div>
-                                            <div className="text-sm opacity-70">
-                                                Price: {save.selling} TK
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div className="font-bold">
-                                        {save.seller}
-                                    </div>
-                                    <div className="text-sm opacity-70">
-                                        {save.email}
-                                    </div>
-                                </td>
-                                <td>
-                                    <label
-                                        onClick={() =>
-                                            setDeletingFavoriteItem(save)
-                                        }
-                                        htmlFor="confirmation-modal"
-                                        className="btn btn-sm btn-error bg-gradient-to-r from-red-600 to-orange-600 text-xs text-white"
-                                    >
-                                        delete
-                                    </label>
-                                </td>
+            {saveProduct?.length > 0 ? (
+                <div className="overflow-x-auto">
+                    <table className="table table-zebra w-full">
+                        <thead>
+                            <tr>
+                                <th>no</th>
+                                <th>Product Info</th>
+                                <th>Seller Info</th>
+                                <th>Action</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            {saveProduct?.map((save, i) => (
+                                <tr key={save._id}>
+                                    <th>{i + 1}</th>
+                                    <td>
+                                        <div className="flex items-center space-x-3">
+                                            <div className="avatar">
+                                                <div className="mask rounded-md h-12 w-12">
+                                                    <img
+                                                        src={save?.image}
+                                                        alt=""
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div className="font-bold">
+                                                    {save.productName}
+                                                </div>
+                                                <div className="text-sm opacity-70">
+                                                    Price: {save.selling} TK
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div className="font-bold">
+                                            {save.seller}
+                                        </div>
+                                        <div className="text-sm opacity-70">
+                                            {save.email}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <label
+                                            onClick={() =>
+                                                setDeletingFavoriteItem(save)
+                                            }
+                                            htmlFor="confirmation-modal"
+                                            className="btn btn-sm btn-error bg-gradient-to-r from-red-600 to-orange-600 text-xs text-white"
+                                        >
+                                            delete
+                                        </label>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            ) : (
+                <p className="text-xl text-red-600 text-center">No Data</p>
+            )}
             {deletingFavoriteItem && (
                 <ConfirmationModal
                     title={`Are you sure you want to delete`}

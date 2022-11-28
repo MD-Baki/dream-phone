@@ -5,11 +5,7 @@ const Blog = () => {
     return (
         <div className="grid gap-6 justify-center items-center mx-auto w-11/12 lg:w-10/12 pt-24 pb-14">
             <div>
-                <img
-                    src="https://i.ibb.co/5jQ9Fw9/13914817-5396346.jpg"
-                    alt=""
-                    className="mx-auto"
-                />
+                <h2 className="text-center text-2xl font-bold">My Blog</h2>
             </div>
 
             <div className="border border-primary rounded-lg overflow-hidden">
