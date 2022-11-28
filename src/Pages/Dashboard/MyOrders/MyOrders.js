@@ -114,15 +114,25 @@ const MyOrders = () => {
                                     </div>
                                 </td>
                                 <td>
-                                    <Link className="btn btn-sm btn-primary text-xs mr-2">
-                                        Pay Now
-                                    </Link>
+                                    {booking.price && !booking.paid && (
+                                        <Link
+                                            to={`/dashboard/payment/${booking._id}`}
+                                            className="btn btn-sm btn-primary text-xs"
+                                        >
+                                            Pay Now
+                                        </Link>
+                                    )}
+                                    {booking.price && booking.paid && (
+                                        <button className="btn  btn-disabled btn-sm capitalize">
+                                            Paid
+                                        </button>
+                                    )}
                                     <label
                                         onClick={() =>
                                             setDeletingBookedProduct(booking)
                                         }
                                         htmlFor="confirmation-modal"
-                                        className="btn btn-sm btn-error bg-gradient-to-r from-red-600 to-orange-600 text-xs text-white"
+                                        className="btn btn-sm btn-error bg-gradient-to-r from-red-600 to-orange-600 text-xs text-white ml-2"
                                     >
                                         delete
                                     </label>

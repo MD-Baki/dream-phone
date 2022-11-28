@@ -31,7 +31,6 @@ const AdsProducts = () => {
             <h2 className="text-2xl font-medium text-primary text-center py-6">
                 Advertised Products
             </h2>
-            {console.log(products)}
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {products?.map(

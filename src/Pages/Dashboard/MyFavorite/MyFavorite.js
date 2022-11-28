@@ -76,9 +76,6 @@ const MyFavorite = () => {
                                     </div>
                                 </td>
                                 <td>
-                                    <Link className="btn btn-sm btn-primary text-xs mr-2">
-                                        Pay Now
-                                    </Link>
                                     <label
                                         htmlFor="confirmation-modal"
                                         className="btn btn-sm btn-error bg-gradient-to-r from-red-600 to-orange-600 text-xs text-white"

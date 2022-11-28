@@ -21,7 +21,6 @@ const SignUp = () => {
     const navigate = useNavigate();
 
     const handleSignUp = (data) => {
-        console.log(data);
         setSignUpError("");
 
         createUser(data.email, data.password)
@@ -41,7 +40,6 @@ const SignUp = () => {
                     .catch((error) => console.log(error));
             })
             .catch((err) => {
-                console.error(err);
                 setSignUpError(err.message);
             });
     };
@@ -56,7 +54,7 @@ const SignUp = () => {
                 saveUser(user.displayName, user.email);
                 setCreateUserEmail(user.email);
             })
-            .catch((err) => console.error(err));
+            .catch((err) => {});
     };
 
     const saveUser = (name, email, role) => {
@@ -70,7 +68,6 @@ const SignUp = () => {
         })
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
                 setCreateUserEmail(email);
             });
     };

@@ -7,6 +7,7 @@ import AllSeller from "../Pages/Dashboard/AllSeller/AllSeller";
 import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
 import MyFavorite from "../Pages/Dashboard/MyFavorite/MyFavorite";
 import MyOrders from "../Pages/Dashboard/MyOrders/MyOrders";
+import Payment from "../Pages/Dashboard/Payment/Payment";
 import CategoryItems from "../Pages/HomePage/AllCategory/CategoryItems/CategoryItems";
 import Home from "../Pages/HomePage/Home/Home";
 import NotFound from "../Pages/NotFound/NotFound";
@@ -111,6 +112,14 @@ export const router = createBrowserRouter([
                         <AllSeller></AllSeller>
                     </AdminRoute>
                 ),
+            },
+            {
+                path: "/dashboard/payment/:id",
+                element: <Payment></Payment>,
+                loader: ({ params }) =>
+                    fetch(
+                        `${process.env.REACT_APP_API_URI}/bookingProduct/${params.id}`
+                    ),
             },
         ],
     },
