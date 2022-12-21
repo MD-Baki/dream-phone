@@ -6,7 +6,7 @@ import AddProduct from "../Pages/Dashboard/AddProduct/AddProduct";
 import AllProducts from "../Pages/Dashboard/AllProducts/AllProducts";
 import AllSeller from "../Pages/Dashboard/AllSeller/AllSeller";
 import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
-import MyFavorite from "../Pages/Dashboard/MyFavorite/MyFavorite";
+// import MyFavorite from "../Pages/Dashboard/MyFavorite/MyFavorite";
 import MyOrders from "../Pages/Dashboard/MyOrders/MyOrders";
 import Payment from "../Pages/Dashboard/Payment/Payment";
 import CategoryItems from "../Pages/HomePage/AllCategory/CategoryItems/CategoryItems";
@@ -38,7 +38,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/category/:id",
-                element: <CategoryItems />,
+                element: (
+                    <PrivateRoute>
+                        <CategoryItems />
+                    </PrivateRoute>
+                ),
                 loader: ({ params }) =>
                     fetch(
                         `${process.env.REACT_APP_API_URI}/category/${params.id}`
@@ -74,10 +78,10 @@ export const router = createBrowserRouter([
                 path: "/dashboard/myOrders",
                 element: <MyOrders></MyOrders>,
             },
-            {
-                path: "/dashboard/myFavorite",
-                element: <MyFavorite></MyFavorite>,
-            },
+            // {
+            //     path: "/dashboard/myFavorite",
+            //     element: <MyFavorite></MyFavorite>,
+            // },
             {
                 path: "/dashboard/allUsers",
                 element: (

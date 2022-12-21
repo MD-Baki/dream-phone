@@ -78,9 +78,18 @@ const SignUp = () => {
 
     return (
         <div className="grid lg:grid-cols-2 gap-8 items-center py-16">
-            <img src={authimg} alt="" />
+            <img
+                data-aos="zoom-out"
+                data-aos-duration="1500"
+                src={authimg}
+                alt=""
+            />
             <div className="w-11/12 lg:w-9/12 mx-auto">
-                <div className="bg-primary bg-opacity-30 py-10 rounded-xl shadow-lg">
+                <div
+                    data-aos="zoom-in"
+                    data-aos-duration="1500"
+                    className="bg-primary bg-opacity-30 py-10 rounded-xl shadow-lg"
+                >
                     <div className="inline-block">
                         <h4 className="text-2xl font-medium uppercase text-white bg-gradient-to-r from-primary to-[#083f50] pl-9 py-2 pr-5 rounded-r-lg mb-5 shadow-lg">
                             Sign Up

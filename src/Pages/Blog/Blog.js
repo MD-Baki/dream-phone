@@ -3,7 +3,11 @@ import { FaAngleDoubleRight } from "react-icons/fa";
 
 const Blog = () => {
     return (
-        <div className="grid gap-6 justify-center items-center mx-auto w-11/12 lg:w-10/12 pt-24 pb-14">
+        <div
+            data-aos="zoom-out"
+            data-aos-duration="1500"
+            className="grid gap-6 justify-center items-center mx-auto w-11/12 lg:w-10/12 py-14"
+        >
             <div>
                 <h2 className="text-center text-2xl font-bold">My Blog</h2>
             </div>

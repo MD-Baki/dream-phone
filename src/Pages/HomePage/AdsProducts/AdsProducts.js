@@ -27,9 +27,13 @@ const AdsProducts = () => {
     }
 
     return (
-        <div className="pb-10">
-            <h2 className="text-2xl font-medium text-primary text-center py-6">
-                Advertised Products
+        <div
+            data-aos="fade-up"
+            data-aos-anchor-placement="top-bottom"
+            data-aos-duration="1500"
+        >
+            <h2 className="text-2xl font-medium text-primary text-center pb-6">
+                Best Offers
             </h2>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./ProductsCard.css";
 import {
     FaMapMarkerAlt,
@@ -10,8 +10,10 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 import { useQuery } from "@tanstack/react-query";
 import { GoVerified } from "react-icons/go";
 import Spinner from "../../../Components/Spinner/Spinner";
+import { AuthContext } from "../../../Context/AuthProvider";
 
-const ProductsCard = ({ product, setProduct, handleSave }) => {
+const ProductsCard = ({ product, setProduct }) => {
+    const { user } = useContext(AuthContext);
     const {
         productName,
         image,
@@ -38,7 +40,12 @@ const ProductsCard = ({ product, setProduct, handleSave }) => {
     }
 
     return (
-        <div className="border rounded-lg shadow-lg pl-5 py-5">
+        <div
+            data-aos="fade-up"
+            data-aos-anchor-placement="top-bottom"
+            data-aos-duration="1500"
+            className="border rounded-lg shadow-lg pl-5 py-5"
+        >
             <div className="relative pr-5">
                 <figure>
                     <PhotoProvider>
@@ -67,7 +74,7 @@ const ProductsCard = ({ product, setProduct, handleSave }) => {
                     {productName}
                 </h2>
                 <div>
-                    <div className="flex justify-between items-center">
+                    <div>
                         <div className="text-lg flex items-center gap-1">
                             Seller: <strong>{seller}</strong>
                             {sellerStates.map((states) => (
@@ -82,12 +89,6 @@ const ProductsCard = ({ product, setProduct, handleSave }) => {
                                 </p>
                             ))}
                         </div>
-                        <button
-                            onClick={() => handleSave(product)}
-                            className="btn btn-primary btn-sm btn-outline"
-                        >
-                            <FaBookmark />
-                        </button>
                     </div>
 
                     <p className="font-light">
@@ -109,16 +110,28 @@ const ProductsCard = ({ product, setProduct, handleSave }) => {
                 </div>
 
                 <div className="pt-2 grid grid-cols-2 gap-2">
-                    <button className="btn btn-outline btn-primary btn-sm text-xs btn-block">
-                        favorite
-                    </button>
-                    <label
-                        onClick={() => setProduct(product)}
-                        htmlFor="product-modal"
-                        className="btn btn-primary btn-sm text-xs btn-block"
-                    >
-                        buy now
-                    </label>
+                    {user?.uid ? (
+                        <>
+                            <button className="btn btn-outline btn-primary btn-sm text-xs btn-block">
+                                See Details
+                            </button>
+                            <label
+                                onClick={() => setProduct(product)}
+                                htmlFor="product-modal"
+                                className="btn btn-primary btn-sm text-xs btn-block"
+                            >
+                                buy now
+                            </label>
+                        </>
+                    ) : (
+                        <label
+                            onClick={() => setProduct(product)}
+                            htmlFor="product-modal"
+                            className="btn btn-primary btn-sm text-xs btn-block col-span-2"
+                        >
+                            See Details
+                        </label>
+                    )}
                 </div>
             </div>
         </div>

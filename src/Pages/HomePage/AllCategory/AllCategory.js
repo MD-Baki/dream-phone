@@ -20,7 +20,7 @@ const AllCategory = () => {
     }
 
     return (
-        <div className="uppercase py-6">
+        <div className="uppercase py-32">
             <h2 className="text-2xl font-medium text-primary text-center pb-5">
                 All Category
             </h2>

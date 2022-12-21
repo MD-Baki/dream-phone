@@ -54,14 +54,6 @@ const DashboardLayout = () => {
                                         MY Orders
                                     </NavLink>
                                 </li>
-                                <li>
-                                    <NavLink
-                                        to="/dashboard/myFavorite"
-                                        className="border"
-                                    >
-                                        MY Favorite
-                                    </NavLink>
-                                </li>
                                 {isAdmin && (
                                     <>
                                         <li>

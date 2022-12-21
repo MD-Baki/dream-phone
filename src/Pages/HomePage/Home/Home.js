@@ -3,6 +3,7 @@ import AdsProducts from "../AdsProducts/AdsProducts";
 import AllCategory from "../AllCategory/AllCategory";
 import BannerSlider from "../BnaaerSlider/BannerSlider";
 import WorkStyle from "../WorkStyle/WorkStyle";
+import TrustUs from "./TrustUs/TrustUs";
 
 const Home = () => {
     return (
@@ -11,6 +12,7 @@ const Home = () => {
             <WorkStyle />
             <AllCategory />
             <AdsProducts />
+            <TrustUs />
         </div>
     );
 };

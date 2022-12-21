@@ -23,19 +23,19 @@ const Products = () => {
         },
     });
 
-    const handleSaveProduct = (product) => {
-        fetch(`${process.env.REACT_APP_API_URI}/saveProduct`, {
-            method: "POST",
-            headers: {
-                "content-type": "application/json",
-            },
-            body: JSON.stringify(product),
-        })
-            .then((res) => res.json())
-            .then((result) => {
-                toast.success("Product Save Successfully");
-            });
-    };
+    // const handleSaveProduct = (product) => {
+    //     fetch(`${process.env.REACT_APP_API_URI}/saveProduct`, {
+    //         method: "POST",
+    //         headers: {
+    //             "content-type": "application/json",
+    //         },
+    //         body: JSON.stringify(product),
+    //     })
+    //         .then((res) => res.json())
+    //         .then((result) => {
+    //             toast.success("Product Save Successfully");
+    //         });
+    // };
 
     if (isLoading) {
         return <Spinner />;
@@ -53,7 +53,7 @@ const Products = () => {
                             key={product._id}
                             product={product}
                             setProduct={setProductModal}
-                            handleSave={handleSaveProduct}
+                            // handleSave={handleSaveProduct}
                         />
                     ))}
                 </div>

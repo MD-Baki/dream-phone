@@ -1,5 +1,10 @@
 # Web site Title: Dream Phones
 
+# Admin ID
+
+-   Id: baki@gmail.com
+-   Pass: 111222
+
 # Live Site:
 
 -   https://dream-phones.web.app/home

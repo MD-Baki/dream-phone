@@ -2,10 +2,10 @@ import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import authimg from "../../assets/login/Computer login-amico.png";
-import { FcGoogle } from "react-icons/fc";
+// import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../../Context/AuthProvider";
 import { toast } from "react-toastify";
-import { GoogleAuthProvider } from "firebase/auth";
+// import { GoogleAuthProvider } from "firebase/auth";
 import useToken from "../../Hooks/useToken";
 
 const SignIn = () => {
@@ -40,18 +40,18 @@ const SignIn = () => {
             });
     };
 
-    const googleProvider = new GoogleAuthProvider();
-    const handleGoogleSignIn = () => {
-        providerLogin(googleProvider)
-            .then((result) => {
-                const user = result.user;
-                console.log(user);
-                toast.success("User Sign In Successfully");
-                setLoginUserEmail(user.email);
-                // navigate(from, { replace: true });
-            })
-            .catch((err) => console.error(err));
-    };
+    // const googleProvider = new GoogleAuthProvider();
+    // const handleGoogleSignIn = () => {
+    //     providerLogin(googleProvider)
+    //         .then((result) => {
+    //             const user = result.user;
+    //             console.log(user);
+    //             toast.success("User Sign In Successfully");
+    //             setLoginUserEmail(user.email);
+    //             // navigate(from, { replace: true });
+    //         })
+    //         .catch((err) => console.error(err));
+    // };
 
     if (token) {
         return navigate(from, { replace: true });
@@ -59,9 +59,18 @@ const SignIn = () => {
 
     return (
         <div className="grid lg:grid-cols-2 gap-8 items-center py-16">
-            <img src={authimg} alt="" />
+            <img
+                data-aos="zoom-out"
+                data-aos-duration="1500"
+                src={authimg}
+                alt=""
+            />
             <div className="w-11/12 lg:w-9/12 mx-auto">
-                <div className="bg-primary bg-opacity-30 py-10 rounded-xl shadow-lg">
+                <div
+                    data-aos="zoom-in"
+                    data-aos-duration="1500"
+                    className="bg-primary bg-opacity-30 py-10 rounded-xl shadow-lg"
+                >
                     <div className="inline-block">
                         <h4 className="text-2xl font-medium uppercase text-white bg-gradient-to-r from-primary to-[#083f50] pl-9 py-2 pr-5 rounded-r-lg mb-5 shadow-lg">
                             Sign In
@@ -132,12 +141,7 @@ const SignIn = () => {
                         <div className="divider font-bold text-secondary">
                             OR
                         </div>
-                        <button
-                            onClick={handleGoogleSignIn}
-                            className="btn btn-block btn-outline border-primary text-primary border-2 capitalize hover:bg-gradient-to-r from-primary to-[#083f50] hover:border-primary"
-                        >
-                            <FcGoogle className="text-lg mr-2" /> Google Sign In
-                        </button>
+
                         <p className="text-lg font-light text-center pt-4 text-primary">
                             New to Dream Phones?{" "}
                             <Link to="/signUp" className="font-medium">
